@@ -42,6 +42,9 @@ type NumberField struct {
 	// Name (required) is the unique name of the field.
 	Name string `form:"name" json:"name"`
 
+	// Label is an optional user-friendly field label shown in the UI.
+	Label string `form:"label" json:"label"`
+
 	// Id is the unique stable field identifier.
 	//
 	// It is automatically generated from the name when adding to a collection FieldsList.

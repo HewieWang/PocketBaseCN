@@ -411,7 +411,7 @@ function collectionUpsertModal(rawCollection, modalSettings) {
                                 hidden: () => data.isNew,
                                 className: "txt-ellipsis collection-name",
                             },
-                            () => data.originalCollection?.name,
+                            () => data.originalCollection?.label || data.originalCollection?.name,
                         ),
                         t.span(null, () => app.tr(" collection")),
                     ),
@@ -525,6 +525,32 @@ function collectionUpsertModal(rawCollection, modalSettings) {
                                         return;
                                     }
                                     data.collection.name = e.target.value;
+                                },
+                            }),
+                        ),
+                        t.div(
+                            { className: "field" },
+                            t.label({
+                                htmlFor: uniqueId + "col_label",
+                                textContent: () => app.tr("Label"),
+                            }),
+                            t.input({
+                                id: uniqueId + "col_label",
+                                type: "text",
+                                name: "label",
+                                spellcheck: false,
+                                placeholder: () => app.tr("e.g. Blog posts"),
+                                value: () => data.collection.label || "",
+                                onmount: (el) => {
+                                    el.addEventListener("compositionend", (e) => {
+                                        data.collection.label = e.target.value;
+                                    });
+                                },
+                                oninput: (e) => {
+                                    if (e.isComposing) {
+                                        return;
+                                    }
+                                    data.collection.label = e.target.value;
                                 },
                             }),
                         ),

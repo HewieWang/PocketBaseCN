@@ -260,7 +260,15 @@ export function input(props) {
             t.label(
                 { htmlFor: uniqueId },
                 t.i({ className: app.fieldTypes.file.icon, ariaHidden: true }),
-                t.span({ className: "txt" }, () => props.field.name),
+                t.span(
+                    { className: "txt" },
+                    () =>
+                        app.labelStore.get(
+                            props.collection.name,
+                            props.field.name,
+                            props.field.label || props.field.name,
+                        ),
+                ),
             ),
             fileInput,
             fieldContentEl,

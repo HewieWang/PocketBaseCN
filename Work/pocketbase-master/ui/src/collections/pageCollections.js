@@ -204,8 +204,8 @@ export function pageCollections(route) {
                     () => {
                         if (app.store.activeCollection?.name) {
                             return t.div({
-                                title: app.store.activeCollection.name,
-                                textContent: app.store.activeCollection.name,
+                                title: () => app.store.activeCollection.label || app.store.activeCollection.name,
+                                textContent: () => app.store.activeCollection.label || app.store.activeCollection.name,
                             });
                         }
                     },

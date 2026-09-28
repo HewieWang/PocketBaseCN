@@ -239,8 +239,8 @@ function rules(data) {
                                     }),
                                     t.span({
                                         className: "txt collection-name",
-                                        title: () => collection.name,
-                                        textContent: () => collection.name,
+                                        title: () => collection.label || collection.name,
+                                        textContent: () => collection.label || collection.name,
                                     }),
                                 ),
                             ),

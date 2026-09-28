@@ -31,7 +31,15 @@ export function input(props) {
                         ariaHidden: true,
                         className: () => (props.field.primaryKey ? "ri-key-line" : app.fieldTypes.text.icon),
                     }),
-                    t.span({ className: "txt" }, () => props.field.name),
+                    t.span(
+                        { className: "txt" },
+                        () =>
+                            app.labelStore.get(
+                                props.collection.name, // 集合名
+                                props.field.name, // 字段名
+                                props.field.label || props.field.name, // 兜底：schema label → 字段名
+                            ),
+                    ),
                 ),
                 // @todo remove after Firefox add support for "field-sizing:content"
                 //

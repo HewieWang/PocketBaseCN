@@ -39,7 +39,7 @@ export function input(props) {
             t.label(
                 { htmlFor: uniqueId },
                 t.i({ className: app.fieldTypes.editor.icon, ariaHidden: true }),
-                t.span({ className: "txt" }, () => props.field.name),
+                t.span({ className: "txt" }, () => props.field.label || props.field.name),
             ),
             () => local.lazyEditor,
         ),

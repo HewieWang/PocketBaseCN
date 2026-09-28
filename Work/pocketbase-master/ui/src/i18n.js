@@ -1092,6 +1092,9 @@ const zhMessages = {
     "True": "是",
     "False": "否",
     "New-line separated choices:": "换行分隔的选项：",
+    "Label": "标签",
+    "e.g. Blog posts": "例如：博客文章",
+    "Field label (optional)": "字段标签（可选）",
 };
 
 // 英文语言包直接返回 key（不需要映射）

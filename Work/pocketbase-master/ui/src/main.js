@@ -148,3 +148,54 @@ document.body.appendChild(t.script({
         app.store._ready = true;
     },
 }));
+
+// 加载 _labels 集合的映射，缓存到内存
+window.app = window.app || {};
+window.app.labelStore = store({
+    data: {}, // { collectionName: { fieldName: label } }
+    loaded: false,
+    loading: false,
+
+    async load() {
+        if (this.loading || this.loaded) return;
+        this.loading = true;
+        try {
+            const records = await app.pb.collection("_labels").getFullList({
+                requestKey: "labels_load",
+            });
+            const map = {};
+            for (const r of records) {
+                if (!map[r.collection]) map[r.collection] = {};
+                // field 为空代表整个 collection 的标签
+                map[r.collection][r.field || "_self"] = r.label;
+            }
+            this.data = map;
+            this.loaded = true;
+        } catch (e) {
+            // _labels 集合不存在时不要报错
+            if (e?.status !== 404) {
+                console.warn("[labels] load failed:", e);
+            }
+        } finally {
+            this.loading = false;
+        }
+    },
+
+    get(collectionName, fieldName, fallback) {
+        // 1. 数据库映射优先
+        const map = this.data?.[collectionName];
+        const dbLabel = fieldName ? map?.[fieldName] : map?.["_self"];
+        if (dbLabel) return dbLabel;
+
+        // 2. i18n 翻译（假设你的 i18n key 形如 "field.posts.title"）
+        const i18nKey = `field.${collectionName}.${fieldName}`;
+        const i18nLabel = app.tr(i18nKey);
+        if (i18nLabel && i18nLabel !== i18nKey) return i18nLabel;
+
+        // 3. schema 里的 label，最后回退到 name
+        return fallback || fieldName || "";
+    },
+});
+
+// 启动时加载一次
+app.labelStore.load();

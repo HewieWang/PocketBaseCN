@@ -14,7 +14,7 @@ export function input(props) {
             t.label(
                 { htmlFor: uniqueId },
                 t.i({ className: app.fieldTypes.number.icon, ariaHidden: true }),
-                t.span({ className: "txt" }, () => props.field.name),
+                t.span({ className: "txt" }, () => props.field.label || props.field.name),
             ),
             t.input({
                 type: "number",

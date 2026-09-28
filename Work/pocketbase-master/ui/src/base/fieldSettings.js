@@ -201,6 +201,26 @@ window.app.components.fieldSettings = function(data, settingsArg = {}) {
                                 }, 0);
                             },
                         }),
+                        t.input({
+                            type: "text",
+                            id: uniqueId + ".label",
+                            name: () => `fields.${data.fieldIndex}.label`,
+                            spellcheck: false,
+                            placeholder: () => app.tr("Field label (optional)"),
+                            disabled: () => data.field[toDeleteProp],
+                            value: () => data.field.label || "",
+                            oninput: (e) => {
+                                if (e.isComposing) {
+                                    return;
+                                }
+                                data.field.label = e.target.value;
+                            },
+                            onmount: (labelInput) => {
+                                labelInput.addEventListener("compositionend", (e) => {
+                                    data.field.label = e.target.value;
+                                });
+                            },
+                        }),
                         t.div({ className: "field-labels" }, () => {
                             const labels = [];
 
